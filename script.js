@@ -30,6 +30,7 @@ const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑�
     game_blocks.appendChild(game)
  }
  // info phase  
+ 
  document.querySelector(".control-buttons span").onclick = function(){
     let yourName = prompt("Whats your Name?");
     !yourName? document.querySelector(".name span").innerHTML = "Unknown":
@@ -46,6 +47,18 @@ blocks.forEach((block,index)=>{
     block.style.order= orderRange[index];
     block.addEventListener('click',function(){
         flipBlock(block);
+        let Game_Finished = blocks.filter(flippedBlock=>flippedBlock.classList.contains("has-match"));
+        if(Game_Finished.length === blocks.length){
+            console.log("hello you finished")
+            let controlDiv = document.createElement("div");
+            controlDiv.classList.add("control-buttons");
+            let spanElement = document.createElement("span");
+            spanElement.textContent = "congrats you finished The game";
+            controlDiv.appendChild(spanElement);
+            let bodyElement = document.body ;
+            
+            bodyElement.insertBefore(controlDiv,bodyElement.firstChild);
+        }
     })
 
 })
@@ -84,10 +97,12 @@ blocks.forEach((block,index)=>{
  }
  function shuffle(arr){
     let current = arr.length ;
+    let temp ;
+    let random ;
     while(current>0){
-       let random= Math.ceil(Math.random()*current);
+        random= Math.floor(Math.random()*current);
         current-- ;
-        let temp = arr[current];
+         temp = arr[current];
         arr[current]= arr[random];
         arr[random]= temp ;
     }
