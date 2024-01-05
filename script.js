@@ -1,9 +1,9 @@
 
  //const medium = ["🐸️","🦭️","🐹️","🐭️","🐷️","🐣️","🦊️","🐮️","🐼️","🦝️","🐻️","🦁️","🐱️","🐵️","🐶️","🐨️" ];
-// const hard = ["🍎️","🍉️","🍊️","🥝️","🍋️","🍒️","🥑️","🍏️","🍍️","🥥️","🥩️",
-// "🍖️","🍕️","🧀️","🍔️","🍟️","🥮️","🍗️","🥗️","🍲️","🥘️","🍙️","🌭️","🍘️","🌶️","🥖️"] ;
+ //const hard = ["🍎️","🍉️","🍊️","🥝️","🍋️","🍒️","🥑️","🍏️","🍍️","🥥️","🥩️",
+ //,"🍕️","🧀️","🍔️","🍟️","🥮️","🍗️","🥗️","🍲️","🍙️","🌭️","🍘️","🌶️","🥖️"] ;
 // Select The Start Game Button
-//  const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️"]
+//  const easy1 = ["😪️","🤩️","😎️","🥸️","🤓️","😈️"]
 const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑️","😛️","😇️","🤫️" ];
 // creating the cards 
  for(let i = 0 ; i<easy.length*2; i++){
@@ -18,7 +18,7 @@ const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑�
     back.classList.add("face");
     back.classList.add("back")
     const emoji = document.createElement("span");
-    emoji.style = "font-size: 170px;"
+    emoji.style = "font-size: 85px;"
     if(i >= easy.length){
         emoji.textContent = `${easy[i-easy.length]}`
     }else{
@@ -39,7 +39,6 @@ const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑�
  }
  //playing phase 
  const  game_blocks = document.querySelector(".memory-game-blocks");
- console.log(game_blocks.children[0].children[1].children)
  const blocks = Array.from(game_blocks.children);
  const orderRange = [...Array(blocks.length).keys()];
  shuffle(orderRange);
@@ -48,19 +47,19 @@ blocks.forEach((block,index)=>{
     block.addEventListener('click',function(){
         flipBlock(block);
         let Game_Finished = blocks.filter(flippedBlock=>flippedBlock.classList.contains("has-match"));
-        if(Game_Finished.length === blocks.length){
-            console.log("hello you finished")
-            let controlDiv = document.createElement("div");
-            controlDiv.classList.add("control-buttons");
-            let spanElement = document.createElement("span");
-            spanElement.textContent = "congrats you finished The game";
-            controlDiv.appendChild(spanElement);
-            let bodyElement = document.body ;
-            
-            bodyElement.insertBefore(controlDiv,bodyElement.firstChild);
-        }
-    })
+    if(Game_Finished.length === blocks.length){
+        let controlDiv = document.createElement("div");
+        controlDiv.classList.add("control-buttons");
+        let spanElement = document.createElement("span");
+        spanElement.textContent = "replay";
+        controlDiv.appendChild(spanElement);
+        let bodyElement = document.body ;
+        bodyElement.insertBefore(controlDiv,bodyElement.firstChild);
 
+    }
+    })
+  
+ 
 })
  
  
@@ -72,12 +71,10 @@ blocks.forEach((block,index)=>{
         stopClicking();
         let TriesNum = document.querySelector(".tries span");
         if(allFlippedBlocks[0].textContent === allFlippedBlocks[1].textContent){
-            
             allFlippedBlocks.forEach((block)=>{
                 block.classList.remove("is-flipped");
                 block.classList.add("has-match") ;
             })
-
         }else{
             TriesNum.textContent = parseInt(TriesNum.textContent)+1;
             setTimeout(()=>{
