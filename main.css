@@ -46,7 +46,9 @@ body {
 }
 .memory-game-blocks {
   display: flex;
-  width: 550px;
+  /*width: 550px;*/
+  /*width:974px;  for medium*/ 
+  width:1200px ; /*for hard level*/
   flex-wrap: wrap;
   margin: 20px auto;
 }

@@ -1,15 +1,18 @@
 
- //const medium = ["🐸️","🦭️","🐹️","🐭️","🐷️","🐣️","🦊️","🐮️","🐼️","🦝️","🐻️","🦁️","🐱️","🐵️","🐶️","🐨️" ];
- //const hard = ["🍎️","🍉️","🍊️","🥝️","🍋️","🍒️","🥑️","🍏️","🍍️","🥥️","🥩️",
- //,"🍕️","🧀️","🍔️","🍟️","🥮️","🍗️","🥗️","🍲️","🍙️","🌭️","🍘️","🌶️","🥖️"] ;
-// Select The Start Game Button
-//  const easy1 = ["😪️","🤩️","😎️","🥸️","🤓️","😈️"]
-const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑️","😛️","😇️","🤫️" ];
+ const challenge = ["🐸️","🦭️","🐹️","🐭️","🐷️","🐣️","🦊️","🐮️","🐼️","🦝️","🐻️","🦁️","🐱️","🐵️","🐶️","🐨️" ];
+ const hard = ["🍎️","🍉️","🍊️","🥝️","🍋️","🍒️","🥑️","🍏️","🍍️","🥥️","🥩️","🍕️","🧀️","🍔️","🍟️","🥮️","🍗️","🥗️","🍲️","🍙️"] ;
+ const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️"]
+const medium = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑️","😛️","😇️","🤫️" ];
 // creating the cards 
- for(let i = 0 ; i<easy.length*2; i++){
+// it should be controlled with radio buttons 
+let level = changeTheLevel(easy)
+// --------------------------------------
+// creating the game blocks 
+ for(let i = 0 ; i<level.length*2; i++){
     const game_blocks = document.querySelector(".memory-game-blocks");
     const game = document.createElement("div");
     game.classList.add("game-block");
+    game.classList.add("has-match");
     const front = document.createElement("div");
     front.classList.add("face");
     front.classList.add("front");
@@ -19,29 +22,25 @@ const easy = ["😪️","🤩️","😎️","🥸️","🤓️","😈️","🤑�
     back.classList.add("back")
     const emoji = document.createElement("span");
     emoji.style = "font-size: 85px;"
-    if(i >= easy.length){
-        emoji.textContent = `${easy[i-easy.length]}`
+    if(i >= level.length){
+        emoji.textContent = `${level[i-level.length]}`
     }else{
-        emoji.textContent = `${easy[i]}`
+        emoji.textContent = `${level[i]}`
     }
    
     back.appendChild(emoji);
     game.appendChild(back);
     game_blocks.appendChild(game)
  }
- // info phase  
+ // Start The Game 
+StartTheGame(); 
  
- document.querySelector(".control-buttons span").onclick = function(){
-    let yourName = prompt("Whats your Name?");
-    !yourName? document.querySelector(".name span").innerHTML = "Unknown":
-               document.querySelector(".name span").innerHTML = yourName;
-    document.querySelector(".control-buttons").remove();
- }
- //playing phase 
+
  const  game_blocks = document.querySelector(".memory-game-blocks");
  const blocks = Array.from(game_blocks.children);
  const orderRange = [...Array(blocks.length).keys()];
  shuffle(orderRange);
+ //playing phase 
 blocks.forEach((block,index)=>{
     block.style.order= orderRange[index];
     block.addEventListener('click',function(){
@@ -55,7 +54,7 @@ blocks.forEach((block,index)=>{
         controlDiv.appendChild(spanElement);
         let bodyElement = document.body ;
         bodyElement.insertBefore(controlDiv,bodyElement.firstChild);
-
+       restart()
     }
     })
   
@@ -104,4 +103,32 @@ blocks.forEach((block,index)=>{
         arr[random]= temp ;
     }
     return arr ;
+}
+function changeTheLevel(arr){
+    let val ;
+    if(arr.length < 16){
+        val = "550px"
+    }else {
+        val = "974px"
+    }
+    document.querySelector(".memory-game-blocks").style.width = val 
+    return arr ;
+}
+function restart(){
+    document.querySelector(".control-buttons span").onclick = function(){
+        location.reload();
+     }
+}
+function StartTheGame(){
+    document.querySelector(".control-buttons span").onclick = function(){
+        let yourName = prompt("Whats your Name?");
+        !yourName? document.querySelector(".name span").innerHTML = "Unknown":
+                   document.querySelector(".name span").innerHTML = yourName;
+        document.querySelector(".control-buttons").remove();
+        setTimeout(()=>{
+            blocks.forEach((block)=>{
+                block.classList.remove("has-match")
+            })
+         },10000)
+     }
 }
